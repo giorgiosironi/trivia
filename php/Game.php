@@ -83,10 +83,8 @@ class Game {
 			$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
 				if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
 
-				$this->output($this->players[$this->currentPlayer]
-						. "'s new location is "
-						.$this->places[$this->currentPlayer]);
-				$this->output("The category is " . $this->currentCategory());
+                $this->outputPlayerPosition();
+                $this->outputCategory();
 				$this->askQuestion();
 			} else {
 				$this->output($this->players[$this->currentPlayer] . " is not getting out of the penalty box");
@@ -98,10 +96,8 @@ class Game {
 		$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
 			if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
 
-			$this->output($this->players[$this->currentPlayer]
-					. "'s new location is "
-					.$this->places[$this->currentPlayer]);
-			$this->output("The category is " . $this->currentCategory());
+            $this->outputPlayerPosition();
+            $this->outputCategory();
 			$this->askQuestion();
 		}
 
@@ -136,11 +132,8 @@ class Game {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
 			if ($this->isGettingOutOfPenaltyBox) {
 				$this->output("Answer was correct!!!!");
-			$this->purses[$this->currentPlayer]++;
-				$this->output($this->players[$this->currentPlayer]
-						. " now has "
-						.$this->purses[$this->currentPlayer]
-						. " Gold Coins.");
+                $this->purses[$this->currentPlayer]++;
+                $this->outputGoldCoins();
 
 				$winner = $this->didPlayerWin();
 				$this->currentPlayer++;
@@ -159,10 +152,7 @@ class Game {
 
 			$this->output("Answer was corrent!!!!");
 		$this->purses[$this->currentPlayer]++;
-			$this->output($this->players[$this->currentPlayer]
-					. " now has "
-					.$this->purses[$this->currentPlayer]
-					. " Gold Coins.");
+            $this->outputGoldCoins();
 
 			$winner = $this->didPlayerWin();
 			$this->currentPlayer++;
@@ -186,4 +176,24 @@ class Game {
 	protected function didPlayerWin() {
 		return !($this->purses[$this->currentPlayer] == 6);
 	}
+
+    protected function outputPlayerPosition()
+    {
+        $this->output($this->players[$this->currentPlayer]
+            . "'s new location is "
+            .$this->places[$this->currentPlayer]);
+    }
+
+    protected function outputCategory()
+    {
+        $this->output("The category is " . $this->currentCategory());
+    }
+
+    protected function outputGoldCoins()
+    {
+        $this->output($this->players[$this->currentPlayer]
+                . " now has "
+                .$this->purses[$this->currentPlayer]
+                . " Gold Coins.");
+    }
 }
