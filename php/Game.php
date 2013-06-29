@@ -107,9 +107,8 @@ class Game {
         $this->outputIncorrectAnswer();
         $this->inPenaltyBox[$this->currentPlayer] = true;
 
-		$this->currentPlayer++;
-		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
-		return true;
+        $this->nextPlayer();
+		return $this->noWinner;
 	}
     
     public function isFinished()
