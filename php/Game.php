@@ -131,31 +131,39 @@ class Game {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
 			if ($this->isGettingOutOfPenaltyBox) {
                 $this->outputCorrectAnswer();
-                $this->purses[$this->currentPlayer]++;
+                $this->newGoldCoin();
                 $this->outputGoldCoins();
 
 				$winner = $this->didPlayerWin();
-				$this->currentPlayer++;
-				if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+                $this->nextPlayer();
 
 				return $winner;
 			} else {
-				$this->currentPlayer++;
-				if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+                $this->nextPlayer();
 				return true;
 			}
 		} else {
             $this->outputCorrectAnswer();
-            $this->purses[$this->currentPlayer]++;
+            $this->newGoldCoin();
             $this->outputGoldCoins();
 
 			$winner = $this->didPlayerWin();
-			$this->currentPlayer++;
-			if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+            $this->nextPlayer();
 
 			return $winner;
 		}
 	}
+
+    protected function newGoldCoin()
+    {
+        $this->purses[$this->currentPlayer]++;
+    }
+
+    protected function nextPlayer()
+    {
+			$this->currentPlayer++;
+			if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+    }
 
 	public function wrongAnswer(){
         $this->outputIncorrectAnswer();
