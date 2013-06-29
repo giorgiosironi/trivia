@@ -71,33 +71,31 @@ class Game {
 		return count($this->players);
 	}
 
-	public function  roll($roll) {
+	public function roll($roll) {
         $this->outputRoll($roll);
 
 		if ($this->inPenaltyBox[$this->currentPlayer]) {
 			if ($roll % 2 != 0) {
+                $this->outputGettingOutOfPenaltyBox();
 				$this->isGettingOutOfPenaltyBox = true;
 
-                $this->outputGettingOutOfPenaltyBox();
-                $this->moveForward($roll);
-
-                $this->outputPlayerPosition();
-                $this->outputCategory();
-				$this->askQuestion();
 			} else {
                 $this->outputNotGettingOutOfPenaltyBox();
 				$this->isGettingOutOfPenaltyBox = false;
-				}
-
-		} else {
-            $this->moveForward($roll);
-
-            $this->outputPlayerPosition();
-            $this->outputCategory();
-			$this->askQuestion();
+                return;
+            }
 		}
 
+        $this->playRound($roll);
 	}
+
+    protected function playRound($roll)
+    {
+        $this->moveForward($roll);
+        $this->outputPlayerPosition();
+        $this->outputCategory();
+        $this->askQuestion();
+    }
 
 	public function wasCorrectlyAnswered() {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
