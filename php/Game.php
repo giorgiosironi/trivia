@@ -94,10 +94,9 @@ class Game {
 	}
 
 	public function wasCorrectlyAnswered() {
-        if (!$this->canPlay) {
-            return $this->nextPlayer();
+        if ($this->canPlay) {
+            $this->correctAnswer();
         }
-        $this->correctAnswer();
         return $this->nextPlayer();
 	}
 
