@@ -14,7 +14,9 @@ class GameGoldenMasterTest extends \PHPUnit_Framework_TestCase
         $this->storeMasterIfNotPresent();
         $this->assertEquals($this->sample, count($this->output));
         $expectedOutput = $this->loadMaster();
-        $this->assertEquals($expectedOutput, $this->output);
+        foreach ($expectedOutput as $i => $expectedRun) {
+            $this->assertEquals($expectedRun, $this->output[$i]);
+        }
     }
 
     private function storeMasterIfNotPresent()

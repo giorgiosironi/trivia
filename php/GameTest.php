@@ -43,7 +43,7 @@ class GameTest extends PHPUnit_Framework_TestCase
         $this->clearOutput();
         $this->game->wasCorrectlyAnswered();
         $this->assertOutputIs(array(
-            'Answer was corrent!!!!',
+            'Answer was correct!!!!',
             'Giorgio now has 1 Gold Coins.',
         ));
     }

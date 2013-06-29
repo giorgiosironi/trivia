@@ -72,14 +72,13 @@ class Game {
 	}
 
 	public function  roll($roll) {
-		$this->output($this->players[$this->currentPlayer] . " is the current player");
-		$this->output("They have rolled a " . $roll);
+        $this->outputRoll($roll);
 
 		if ($this->inPenaltyBox[$this->currentPlayer]) {
 			if ($roll % 2 != 0) {
 				$this->isGettingOutOfPenaltyBox = true;
 
-				$this->output($this->players[$this->currentPlayer] . " is getting out of the penalty box");
+                $this->outputGettingOutOfPenaltyBox();
 			$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
 				if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
 
@@ -87,7 +86,7 @@ class Game {
                 $this->outputCategory();
 				$this->askQuestion();
 			} else {
-				$this->output($this->players[$this->currentPlayer] . " is not getting out of the penalty box");
+                $this->outputNotGettingOutOfPenaltyBox();
 				$this->isGettingOutOfPenaltyBox = false;
 				}
 
@@ -131,7 +130,7 @@ class Game {
 	public function wasCorrectlyAnswered() {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
 			if ($this->isGettingOutOfPenaltyBox) {
-				$this->output("Answer was correct!!!!");
+                $this->outputCorrectAnswer();
                 $this->purses[$this->currentPlayer]++;
                 $this->outputGoldCoins();
 
@@ -145,13 +144,9 @@ class Game {
 				if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
 				return true;
 			}
-
-
-
 		} else {
-
-			$this->output("Answer was corrent!!!!");
-		$this->purses[$this->currentPlayer]++;
+            $this->outputCorrectAnswer();
+            $this->purses[$this->currentPlayer]++;
             $this->outputGoldCoins();
 
 			$winner = $this->didPlayerWin();
@@ -163,8 +158,7 @@ class Game {
 	}
 
 	public function wrongAnswer(){
-		$this->output("Question was incorrectly answered");
-		$this->output($this->players[$this->currentPlayer] . " was sent to the penalty box");
+        $this->outputIncorrectAnswer();
 	$this->inPenaltyBox[$this->currentPlayer] = true;
 
 		$this->currentPlayer++;
@@ -195,5 +189,33 @@ class Game {
                 . " now has "
                 .$this->purses[$this->currentPlayer]
                 . " Gold Coins.");
+    }
+
+
+    protected function outputCorrectAnswer()
+    {
+        $this->output("Answer was correct!!!!");
+    }
+
+    protected function outputIncorrectAnswer()
+    {
+		$this->output("Question was incorrectly answered");
+		$this->output($this->players[$this->currentPlayer] . " was sent to the penalty box");
+    }
+
+    protected function outputGettingOutOfPenaltyBox()
+    {
+        $this->output($this->players[$this->currentPlayer] . " is getting out of the penalty box");
+    }
+
+    protected function outputNotGettingOutOfPenaltyBox()
+    {
+        $this->output($this->players[$this->currentPlayer] . " is not getting out of the penalty box");
+    }
+
+    protected function outputRoll($roll)
+    {
+		$this->output($this->players[$this->currentPlayer] . " is the current player");
+		$this->output("They have rolled a " . $roll);
     }
 }
