@@ -17,11 +17,14 @@ class Game {
     private $currentPlayer = 0;
     private $isGettingOutOfPenaltyBox;
 
-    public function  __construct()
+    public function  __construct($outputChannel = null)
     {
-        $this->outputChannel = function($string) {
-            return echoln($string);
-        };
+        if ($outputChannel === null) {
+            $outputChannel = function($string) {
+                return echoln($string);
+            };
+        }
+        $this->outputChannel = $outputChannel;
         $this->players = array();
         $this->places = array(0);
         $this->purses  = array(0);
