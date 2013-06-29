@@ -76,6 +76,7 @@ class Game {
 	public function roll($roll) {
         $this->outputRoll($roll);
 
+        $this->canPlay = true;
 		if ($this->inPenaltyBox[$this->currentPlayer]) {
 			if ($roll % 2 != 0) {
                 $this->outputGettingOutOfPenaltyBox();
@@ -84,6 +85,7 @@ class Game {
 			} else {
                 $this->outputNotGettingOutOfPenaltyBox();
 				$this->isGettingOutOfPenaltyBox = false;
+                $this->canPlay = false;
                 return;
             }
 		}
@@ -92,11 +94,9 @@ class Game {
 	}
 
 	public function wasCorrectlyAnswered() {
-		if ($this->inPenaltyBox[$this->currentPlayer]){
-			if (!$this->isGettingOutOfPenaltyBox) {
-                return $this->nextPlayer();
-			}
-		}
+        if (!$this->canPlay) {
+            return $this->nextPlayer();
+        }
         $this->correctAnswer();
         return $this->nextPlayer();
 	}
