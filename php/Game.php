@@ -94,21 +94,18 @@ class Game {
 	public function wasCorrectlyAnswered() {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
 			if (!$this->isGettingOutOfPenaltyBox) {
-                $this->nextPlayer();
-                return $this->noWinner;
+                return $this->nextPlayer();
 			}
 		}
         $this->correctAnswer();
-        return $this->noWinner;
-
+        return $this->nextPlayer();
 	}
 
 	public function wrongAnswer(){
         $this->outputIncorrectAnswer();
         $this->inPenaltyBox[$this->currentPlayer] = true;
 
-        $this->nextPlayer();
-		return $this->noWinner;
+        return $this->nextPlayer();
 	}
     
     public function isFinished()
@@ -130,7 +127,6 @@ class Game {
         $this->newGoldCoin();
         $this->outputGoldCoins();
         $this->noWinner = $this->didPlayerWin();
-        $this->nextPlayer();
     }
 
 	protected function askQuestion() {
@@ -171,8 +167,9 @@ class Game {
 
     protected function nextPlayer()
     {
-			$this->currentPlayer++;
-			if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+        $this->currentPlayer++;
+        if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+        return $this->noWinner;
     }
 
 
