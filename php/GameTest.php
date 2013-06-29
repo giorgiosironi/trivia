@@ -114,6 +114,19 @@ class GameTest extends PHPUnit_Framework_TestCase
         $this->assertOutputIs(array());
     }
 
+    public function testTheCircuitHas12Locations()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(6);
+        $this->game->wasCorrectlyAnswered();
+        $this->clearOutput();
+
+        $this->game->roll(6);
+        $this->assertOutputContains(
+            'Giorgio\'s new location is 0'
+        );
+    }
+
     private function assertOutputIs(array $lines)
     {
         $this->assertEquals(

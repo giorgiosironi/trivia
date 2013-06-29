@@ -79,8 +79,7 @@ class Game {
 				$this->isGettingOutOfPenaltyBox = true;
 
                 $this->outputGettingOutOfPenaltyBox();
-			$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-				if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
+                $this->moveForward($roll);
 
                 $this->outputPlayerPosition();
                 $this->outputCategory();
@@ -91,9 +90,7 @@ class Game {
 				}
 
 		} else {
-
-		$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-			if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
+            $this->moveForward($roll);
 
             $this->outputPlayerPosition();
             $this->outputCategory();
@@ -163,6 +160,12 @@ class Game {
 		if ($this->places[$this->currentPlayer] == 10) return "Sports";
 		return "Rock";
 	}
+
+    protected function moveForward($roll)
+    {
+		$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
+			if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
+    }
 
     protected function newGoldCoin()
     {
