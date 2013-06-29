@@ -48,7 +48,7 @@ class GameTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    public function testASinglePlayerCanAnswerAQuestionWrongly()
+    public function testASinglePlayerCanAnswerAQuestionWronglyAndBeSentToThePenaltyBox()
     {
         $this->game->add('Giorgio');
         $this->game->roll(1);
@@ -61,10 +61,44 @@ class GameTest extends PHPUnit_Framework_TestCase
         ));
     }
 
+    public function testAPlayerInThePenaltyBoxCanExitITWithAnOddRoll()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(1);
+        $this->game->wrongAnswer();
+
+        $this->clearOutput();
+        $this->game->roll(1);
+        $this->assertOutputContains(
+            'Giorgio is getting out of the penalty box'
+        );
+    }
+
+    public function testAPlayerInThePenaltyBoxStaysInThereWithAnEvenRoll()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(1);
+        $this->game->wrongAnswer();
+
+        $this->clearOutput();
+        $this->game->roll(2);
+        $this->assertOutputContains(
+            'Giorgio is not getting out of the penalty box'
+        );
+    }
+
     private function assertOutputIs(array $lines)
     {
         $this->assertEquals(
             $lines,
+            $this->output
+        );
+    }
+
+    private function assertOutputContains($line)
+    {
+        $this->assertContains(
+            $line,
             $this->output
         );
     }
