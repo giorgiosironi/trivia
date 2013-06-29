@@ -20,6 +20,21 @@ class GameTest extends PHPUnit_Framework_TestCase
         ));
     }
 
+    public function testASinglePlayerCanRollTheDice()
+    {
+        $this->game->add('Giorgio');
+        $this->clearOutput();
+
+        $this->game->roll(1);
+        $this->assertOutputIs(array(
+            'Giorgio is the current player',
+            'They have rolled a 1',
+            'Giorgio\'s new location is 1',
+            'The category is Science',
+            'Science Question 0',
+        ));
+    }
+
     private function assertOutputIs(array $lines)
     {
         $this->assertEquals(
@@ -37,5 +52,10 @@ class GameTest extends PHPUnit_Framework_TestCase
                 }
             }
         };
+    }
+
+    private function clearOutput()
+    {
+        $this->output = array();
     }
 }
