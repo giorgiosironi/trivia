@@ -35,6 +35,32 @@ class GameTest extends PHPUnit_Framework_TestCase
         ));
     }
 
+    public function testASinglePlayerCanAnswerAQuestionCorrectly()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(1);
+
+        $this->clearOutput();
+        $this->game->wasCorrectlyAnswered();
+        $this->assertOutputIs(array(
+            'Answer was corrent!!!!',
+            'Giorgio now has 1 Gold Coins.',
+        ));
+    }
+
+    public function testASinglePlayerCanAnswerAQuestionWrongly()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(1);
+
+        $this->clearOutput();
+        $this->game->wrongAnswer();
+        $this->assertOutputIs(array(
+            'Question was incorrectly answered',
+            'Giorgio was sent to the penalty box',
+        ));
+    }
+
     private function assertOutputIs(array $lines)
     {
         $this->assertEquals(
