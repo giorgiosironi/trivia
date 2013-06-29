@@ -22,7 +22,7 @@ class GameGoldenMasterTest extends \PHPUnit_Framework_TestCase
     private function storeMasterIfNotPresent()
     {
         if (!file_exists($this->master)) {
-            $fp = fopen($this->master, 'w');
+            $fp = fopen($this->master, 'w+');
             foreach ($this->output as $run) {
                 fputcsv($fp, explode("\n", $run));
             }
