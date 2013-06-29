@@ -15,9 +15,9 @@ class Game {
     private $rockQuestions;
 
     private $currentPlayer = 0;
-    private $isGettingOutOfPenaltyBox;
 
     private $noWinner = true;
+    private $canPlay;
 
     public function  __construct($outputChannel = null)
     {
@@ -80,11 +80,9 @@ class Game {
 		if ($this->inPenaltyBox[$this->currentPlayer]) {
 			if ($roll % 2 != 0) {
                 $this->outputGettingOutOfPenaltyBox();
-				$this->isGettingOutOfPenaltyBox = true;
 
 			} else {
                 $this->outputNotGettingOutOfPenaltyBox();
-				$this->isGettingOutOfPenaltyBox = false;
                 $this->canPlay = false;
                 return;
             }
