@@ -102,31 +102,6 @@ class Game {
 
 	}
 
-	protected function  askQuestion() {
-		if ($this->currentCategory() == "Pop")
-			$this->output(array_shift($this->popQuestions));
-		if ($this->currentCategory() == "Science")
-			$this->output(array_shift($this->scienceQuestions));
-		if ($this->currentCategory() == "Sports")
-			$this->output(array_shift($this->sportsQuestions));
-		if ($this->currentCategory() == "Rock")
-			$this->output(array_shift($this->rockQuestions));
-	}
-
-
-	protected function currentCategory() {
-		if ($this->places[$this->currentPlayer] == 0) return "Pop";
-		if ($this->places[$this->currentPlayer] == 4) return "Pop";
-		if ($this->places[$this->currentPlayer] == 8) return "Pop";
-		if ($this->places[$this->currentPlayer] == 1) return "Science";
-		if ($this->places[$this->currentPlayer] == 5) return "Science";
-		if ($this->places[$this->currentPlayer] == 9) return "Science";
-		if ($this->places[$this->currentPlayer] == 2) return "Sports";
-		if ($this->places[$this->currentPlayer] == 6) return "Sports";
-		if ($this->places[$this->currentPlayer] == 10) return "Sports";
-		return "Rock";
-	}
-
 	public function wasCorrectlyAnswered() {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
 			if ($this->isGettingOutOfPenaltyBox) {
@@ -154,6 +129,41 @@ class Game {
 		}
 	}
 
+	public function wrongAnswer(){
+        $this->outputIncorrectAnswer();
+        $this->inPenaltyBox[$this->currentPlayer] = true;
+
+		$this->currentPlayer++;
+		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+		return true;
+	}
+
+
+	protected function  askQuestion() {
+		if ($this->currentCategory() == "Pop")
+			$this->output(array_shift($this->popQuestions));
+		if ($this->currentCategory() == "Science")
+			$this->output(array_shift($this->scienceQuestions));
+		if ($this->currentCategory() == "Sports")
+			$this->output(array_shift($this->sportsQuestions));
+		if ($this->currentCategory() == "Rock")
+			$this->output(array_shift($this->rockQuestions));
+	}
+
+
+	protected function currentCategory() {
+		if ($this->places[$this->currentPlayer] == 0) return "Pop";
+		if ($this->places[$this->currentPlayer] == 4) return "Pop";
+		if ($this->places[$this->currentPlayer] == 8) return "Pop";
+		if ($this->places[$this->currentPlayer] == 1) return "Science";
+		if ($this->places[$this->currentPlayer] == 5) return "Science";
+		if ($this->places[$this->currentPlayer] == 9) return "Science";
+		if ($this->places[$this->currentPlayer] == 2) return "Sports";
+		if ($this->places[$this->currentPlayer] == 6) return "Sports";
+		if ($this->places[$this->currentPlayer] == 10) return "Sports";
+		return "Rock";
+	}
+
     protected function newGoldCoin()
     {
         $this->purses[$this->currentPlayer]++;
@@ -164,15 +174,6 @@ class Game {
 			$this->currentPlayer++;
 			if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
     }
-
-	public function wrongAnswer(){
-        $this->outputIncorrectAnswer();
-	$this->inPenaltyBox[$this->currentPlayer] = true;
-
-		$this->currentPlayer++;
-		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
-		return true;
-	}
 
 
 	protected function didPlayerWin() {
