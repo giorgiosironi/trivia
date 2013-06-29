@@ -87,6 +87,33 @@ class GameTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAnsweringAQuestionWhileExitingFromThePenaltyBox()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(1);
+        $this->game->wrongAnswer();
+        $this->game->roll(1);
+
+        $this->clearOutput();
+        $this->game->wasCorrectlyAnswered();
+        $this->assertOutputIs(array(
+            'Answer was correct!!!!',
+            'Giorgio now has 1 Gold Coins.',
+        ));
+    }
+
+    public function testQuestionsCannotBeAnsweredWhileStayingInThePenaltyBox()
+    {
+        $this->game->add('Giorgio');
+        $this->game->roll(1);
+        $this->game->wrongAnswer();
+        $this->game->roll(2);
+
+        $this->clearOutput();
+        $this->game->wasCorrectlyAnswered();
+        $this->assertOutputIs(array());
+    }
+
     private function assertOutputIs(array $lines)
     {
         $this->assertEquals(
