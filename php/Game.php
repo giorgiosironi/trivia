@@ -17,7 +17,7 @@ class Game {
     private $currentPlayer = 0;
     private $isGettingOutOfPenaltyBox;
 
-    private $winner = true;
+    private $noWinner = true;
 
     public function  __construct($outputChannel = null)
     {
@@ -91,36 +91,17 @@ class Game {
         $this->playRound($roll);
 	}
 
-    protected function playRound($roll)
-    {
-        $this->moveForward($roll);
-        $this->outputPlayerPosition();
-        $this->outputCategory();
-        $this->askQuestion();
-    }
-
 	public function wasCorrectlyAnswered() {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
-			if ($this->isGettingOutOfPenaltyBox) {
-                $this->correctAnswer();
-			} else {
+			if (!$this->isGettingOutOfPenaltyBox) {
                 $this->nextPlayer();
+                return $this->noWinner;
 			}
-		} else {
-            $this->correctAnswer();
-
 		}
-        return $this->winner;
-	}
+        $this->correctAnswer();
+        return $this->noWinner;
 
-    protected function correctAnswer()
-    {
-        $this->outputCorrectAnswer();
-        $this->newGoldCoin();
-        $this->outputGoldCoins();
-        $this->winner = $this->didPlayerWin();
-        $this->nextPlayer();
-    }
+	}
 
 	public function wrongAnswer(){
         $this->outputIncorrectAnswer();
@@ -133,10 +114,27 @@ class Game {
     
     public function isFinished()
     {
-        return $this->winner !== true;
+        return $this->noWinner !== true;
     }
 
-	protected function  askQuestion() {
+    protected function playRound($roll)
+    {
+        $this->moveForward($roll);
+        $this->outputPlayerPosition();
+        $this->outputCategory();
+        $this->askQuestion();
+    }
+
+    protected function correctAnswer()
+    {
+        $this->outputCorrectAnswer();
+        $this->newGoldCoin();
+        $this->outputGoldCoins();
+        $this->noWinner = $this->didPlayerWin();
+        $this->nextPlayer();
+    }
+
+	protected function askQuestion() {
 		if ($this->currentCategory() == "Pop")
 			$this->output(array_shift($this->popQuestions));
 		if ($this->currentCategory() == "Science")
