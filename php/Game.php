@@ -17,6 +17,8 @@ class Game {
     private $currentPlayer = 0;
     private $isGettingOutOfPenaltyBox;
 
+    private $winner = true;
+
     public function  __construct($outputChannel = null)
     {
         if ($outputChannel === null) {
@@ -100,29 +102,25 @@ class Game {
 	public function wasCorrectlyAnswered() {
 		if ($this->inPenaltyBox[$this->currentPlayer]){
 			if ($this->isGettingOutOfPenaltyBox) {
-                $this->outputCorrectAnswer();
-                $this->newGoldCoin();
-                $this->outputGoldCoins();
-
-				$winner = $this->didPlayerWin();
-                $this->nextPlayer();
-
-				return $winner;
+                $this->correctAnswer();
 			} else {
                 $this->nextPlayer();
-				return true;
 			}
 		} else {
-            $this->outputCorrectAnswer();
-            $this->newGoldCoin();
-            $this->outputGoldCoins();
+            $this->correctAnswer();
 
-			$winner = $this->didPlayerWin();
-            $this->nextPlayer();
-
-			return $winner;
 		}
+        return $this->winner;
 	}
+
+    protected function correctAnswer()
+    {
+        $this->outputCorrectAnswer();
+        $this->newGoldCoin();
+        $this->outputGoldCoins();
+        $this->winner = $this->didPlayerWin();
+        $this->nextPlayer();
+    }
 
 	public function wrongAnswer(){
         $this->outputIncorrectAnswer();
@@ -132,7 +130,11 @@ class Game {
 		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
 		return true;
 	}
-
+    
+    public function isFinished()
+    {
+        return $this->winner !== true;
+    }
 
 	protected function  askQuestion() {
 		if ($this->currentCategory() == "Pop")

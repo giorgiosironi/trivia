@@ -127,6 +127,19 @@ class GameTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAPlayerWinsWhenHeHas6Points()
+    {
+        $this->game->add('Giorgio');
+        for ($i = 1; $i <= 5; $i++) {
+            $this->game->roll(6);
+            $this->assertTrue($this->game->wasCorrectlyAnswered());
+            $this->assertFalse($this->game->isFinished());
+        }
+        $this->game->roll(6);
+        $this->assertFalse($this->game->wasCorrectlyAnswered());
+        $this->assertTrue($this->game->isFinished());
+    }
+
     private function assertOutputIs(array $lines)
     {
         $this->assertEquals(
